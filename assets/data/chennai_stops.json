@@ -1,0 +1,23 @@
+{
+  "stops": [
+    {"id": "CMRL_ALANDUR",    "name": "Alandur Metro",        "lat": 12.9937, "lng": 80.2008},
+    {"id": "CMRL_GUINDY",     "name": "Guindy Metro",          "lat": 13.0071, "lng": 80.2199},
+    {"id": "CMRL_KKDM",       "name": "Koyambedu Metro",       "lat": 13.0694, "lng": 80.1948},
+    {"id": "CMRL_TNAGAR",     "name": "T.Nagar",               "lat": 13.0418, "lng": 80.2341},
+    {"id": "CMRL_EGMORE",     "name": "Egmore Metro",          "lat": 13.0784, "lng": 80.2620},
+    {"id": "CMRL_BEACH",      "name": "Chennai Beach Metro",   "lat": 13.1041, "lng": 80.2918},
+    {"id": "MRTS_TAMBARAM",   "name": "Tambaram",              "lat": 12.9249, "lng": 80.1000},
+    {"id": "MRTS_CHROMPET",   "name": "Chromepet",             "lat": 12.9516, "lng": 80.1462},
+    {"id": "MRTS_PALLAVARAM", "name": "Pallavaram",            "lat": 12.9677, "lng": 80.1495},
+    {"id": "MRTS_GUINDY",     "name": "Guindy Rail",           "lat": 13.0067, "lng": 80.2206},
+    {"id": "MRTS_MAMBALAM",   "name": "Mambalam",              "lat": 13.0340, "lng": 80.2234},
+    {"id": "MRTS_PARK",       "name": "Park Town",             "lat": 13.0785, "lng": 80.2752},
+    {"id": "MRTS_BEACH",      "name": "Chennai Beach Rail",    "lat": 13.1041, "lng": 80.2918},
+    {"id": "BUS_TAMBARAM_BS", "name": "Tambaram Bus Stop",     "lat": 12.9265, "lng": 80.1044},
+    {"id": "BUS_GUINDY",      "name": "Guindy Bus Stop",       "lat": 13.0060, "lng": 80.2200},
+    {"id": "BUS_KOYAMBEDU",   "name": "Koyambedu Bus Terminal","lat": 13.0694, "lng": 80.1948},
+    {"id": "BUS_CMBT",        "name": "CMBT",                  "lat": 13.0724, "lng": 80.1948},
+    {"id": "BUS_ADYAR",       "name": "Adyar Bus Stop",        "lat": 13.0012, "lng": 80.2565},
+    {"id": "BUS_TNAGAR",      "name": "T.Nagar Bus Terminus",  "lat": 13.0390, "lng": 80.2330}
+  ]
+}
