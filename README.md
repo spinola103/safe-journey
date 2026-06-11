@@ -32,7 +32,7 @@ Existing transit apps plan routes — but none verify that each leg was complete
 
 ## Screenshots
 
-> Add your screenshots here — save to `assets/images/screenshots/`
+
 
 | Home Screen | Route Results | Journey Editor |
 |---|---|---|
@@ -42,7 +42,7 @@ Existing transit apps plan routes — but none verify that each leg was complete
 |---|---|---|
 | ![Journey](assets/images/screenshots/active_journey.png) | ![Guardian](assets/images/screenshots/guardian_screen.png) | ![SOS](assets/images/screenshots/sos_screen.png) |
 
-*To take screenshots on emulator: `adb exec-out screencap -p > screen.png`*
+
 
 ---
 
