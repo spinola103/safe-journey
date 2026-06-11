@@ -327,6 +327,47 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     const SizedBox(height: 16),
                   ],
 
+                  // ── Guardian View button ─────────────────────────────
+                  GestureDetector(
+                    onTap: () => context.push('/guardian/demo_001'),
+                    child: Container(
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        color: AppColors.navy,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 8, offset: const Offset(0, 3)),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 40, height: 40,
+                            decoration: BoxDecoration(
+                              color: AppColors.teal.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Icon(Icons.visibility_rounded, color: AppColors.teal, size: 20),
+                          ),
+                          const SizedBox(width: 14),
+                          const Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Guardian View',
+                                  style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700)),
+                                Text('Monitor a traveller\'s live journey',
+                                  style: TextStyle(color: AppColors.tealMid, fontSize: 11)),
+                              ],
+                            ),
+                          ),
+                          const Icon(Icons.arrow_forward_ios_rounded, color: AppColors.tealMid, size: 14),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
                   // Recent searches
                   Text('Recent searches', style: Theme.of(context).textTheme.titleMedium),
                   const SizedBox(height: 10),

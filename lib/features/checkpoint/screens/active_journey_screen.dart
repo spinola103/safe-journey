@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 import '../../../core/models/journey_plan.dart';
@@ -527,9 +528,17 @@ class _ActiveJourneyScreenState extends State<ActiveJourneyScreen>
                         child: Text('Guardian is watching your journey live',
                             style: TextStyle(fontSize: 13, color: AppColors.teal, fontWeight: FontWeight.w500)),
                       ),
-                      TextButton(
-                        onPressed: () {},
-                        child: const Text('Share link', style: TextStyle(fontSize: 12)),
+                      GestureDetector(
+                        onTap: () => context.push('/guardian/${widget.plan.id}'),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: AppColors.teal,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Text('Open View',
+                            style: TextStyle(fontSize: 11, color: Colors.white, fontWeight: FontWeight.w600)),
+                        ),
                       ),
                     ],
                   ),

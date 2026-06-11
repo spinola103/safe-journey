@@ -10,31 +10,31 @@ import '../widgets/route_card.dart';
 // Known Chennai stop coordinates for demo polylines
 // ─────────────────────────────────────────────────────────────────────────────
 const Map<String, LatLng> _stopLatLng = {
-  'tambaram':           LatLng(12.9249, 80.0999),
-  'tambaram bus stop':  LatLng(12.9260, 80.1010),
-  'guindy':             LatLng(13.0067, 80.2206),
-  'guindy metro':       LatLng(13.0082, 80.2200),
-  't.nagar':            LatLng(13.0357, 80.2334),
-  'tnagar':             LatLng(13.0357, 80.2334),
-  'anna nagar':         LatLng(13.0850, 80.2101),
-  'anna nagar east':    LatLng(13.0848, 80.2132),
-  'anna nagar tower':   LatLng(13.0871, 80.2095),
-  'adyar':              LatLng(13.0012, 80.2565),
-  'adyar bus stop':     LatLng(13.0005, 80.2560),
-  'adyar depot':        LatLng(13.0018, 80.2570),
-  'egmore':             LatLng(13.0732, 80.2609),
-  'saidapet':           LatLng(13.0212, 80.2258),
-  'saidapet metro':     LatLng(13.0205, 80.2248),
-  'little mount':       LatLng(13.0253, 80.2275),
-  'chromepet':          LatLng(12.9516, 80.1462),
-  'velachery':          LatLng(12.9815, 80.2209),
-  'chennai central':    LatLng(13.0827, 80.2751),
-  'chennai beach':      LatLng(13.0974, 80.2874),
-  'chennai beach metro':LatLng(13.0970, 80.2868),
-  'koyambedu':          LatLng(13.0694, 80.1948),
-  'perambur':           LatLng(13.1177, 80.2427),
-  'junction':           LatLng(13.0450, 80.2200),
-  'mylapore':           LatLng(13.0336, 80.2677),
+  'tambaram': LatLng(12.9249, 80.0999),
+  'tambaram bus stop': LatLng(12.9260, 80.1010),
+  'guindy': LatLng(13.0067, 80.2206),
+  'guindy metro': LatLng(13.0082, 80.2200),
+  't.nagar': LatLng(13.0357, 80.2334),
+  'tnagar': LatLng(13.0357, 80.2334),
+  'anna nagar': LatLng(13.0850, 80.2101),
+  'anna nagar east': LatLng(13.0848, 80.2132),
+  'anna nagar tower': LatLng(13.0871, 80.2095),
+  'adyar': LatLng(13.0012, 80.2565),
+  'adyar bus stop': LatLng(13.0005, 80.2560),
+  'adyar depot': LatLng(13.0018, 80.2570),
+  'egmore': LatLng(13.0732, 80.2609),
+  'saidapet': LatLng(13.0212, 80.2258),
+  'saidapet metro': LatLng(13.0205, 80.2248),
+  'little mount': LatLng(13.0253, 80.2275),
+  'chromepet': LatLng(12.9516, 80.1462),
+  'velachery': LatLng(12.9815, 80.2209),
+  'chennai central': LatLng(13.0827, 80.2751),
+  'chennai beach': LatLng(13.0974, 80.2874),
+  'chennai beach metro': LatLng(13.0970, 80.2868),
+  'koyambedu': LatLng(13.0694, 80.1948),
+  'perambur': LatLng(13.1177, 80.2427),
+  'junction': LatLng(13.0450, 80.2200),
+  'mylapore': LatLng(13.0336, 80.2677),
 };
 
 LatLng? _ll(String stop) {
@@ -58,31 +58,35 @@ class RouteResultsScreen extends StatefulWidget {
 }
 
 class _RouteResultsScreenState extends State<RouteResultsScreen> {
-  static const _labels      = ['Fastest', 'Cheapest', 'Safest'];
-  static const _labelColors = [AppColors.teal, AppColors.amber, AppColors.green];
+  static const _labels = ['Fastest', 'Cheapest', 'Safest'];
+  static const _labelColors = [
+    AppColors.teal,
+    AppColors.amber,
+    AppColors.green,
+  ];
 
-  int _selectedIndex = 0;  // which plan's route is shown on the map
+  int _selectedIndex = 0; // which plan's route is shown on the map
   GoogleMapController? _mapCtrl;
 
   // Per-mode colours for polylines
   static Color _modePolyColor(String mode) => switch (mode) {
-    'metro' => const Color(0xFF0A9396),   // teal
-    'rail'  => const Color(0xFF6D3A9C),   // purple
-    'bus'   => const Color(0xFFEE9B00),   // amber
-    'auto'  => const Color(0xFFE76F51),   // orange
-    'walk'  => const Color(0xFF3D9970),   // green
-    _       => const Color(0xFF64748B),
+    'metro' => const Color(0xFF0A9396), // teal
+    'rail' => const Color(0xFF6D3A9C), // purple
+    'bus' => const Color(0xFFEE9B00), // amber
+    'auto' => const Color(0xFFE76F51), // orange
+    'walk' => const Color(0xFF3D9970), // green
+    _ => const Color(0xFF64748B),
   };
 
   // Build markers + polylines for a given plan
   ({Set<Marker> markers, Set<Polyline> polylines, LatLngBounds? bounds})
-      _buildMapOverlays(JourneyPlan plan) {
-    final markers   = <Marker>{};
+  _buildMapOverlays(JourneyPlan plan) {
+    final markers = <Marker>{};
     final polylines = <Polyline>{};
     final allPoints = <LatLng>[];
 
     for (int i = 0; i < plan.legs.length; i++) {
-      final leg   = plan.legs[i];
+      final leg = plan.legs[i];
       final color = _modePolyColor(leg.mode);
 
       // ── Polyline ────────────────────────────────────────────────────
@@ -93,33 +97,39 @@ class _RouteResultsScreenState extends State<RouteResultsScreen> {
       } else {
         // Demo: straight line between known stops
         final from = _ll(leg.startStop);
-        final to   = _ll(leg.endStop);
+        final to = _ll(leg.endStop);
         pts = (from != null && to != null) ? [from, to] : [];
       }
 
       if (pts.isNotEmpty) {
         allPoints.addAll(pts);
-        polylines.add(Polyline(
-          polylineId: PolylineId('leg_$i'),
-          points: pts,
-          color: color,
-          width: leg.mode == 'walk' ? 3 : 5,
-          patterns: leg.mode == 'walk'
-              ? [PatternItem.dash(12), PatternItem.gap(8)]
-              : [],
-        ));
+        polylines.add(
+          Polyline(
+            polylineId: PolylineId('leg_$i'),
+            points: pts,
+            color: color,
+            width: leg.mode == 'walk' ? 3 : 5,
+            patterns: leg.mode == 'walk'
+                ? [PatternItem.dash(12), PatternItem.gap(8)]
+                : [],
+          ),
+        );
       }
 
       // ── Start marker (only for first leg) ────────────────────────────
       if (i == 0) {
         final pos = pts.isNotEmpty ? pts.first : _ll(leg.startStop);
         if (pos != null) {
-          markers.add(Marker(
-            markerId: const MarkerId('origin'),
-            position: pos,
-            icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
-            infoWindow: InfoWindow(title: 'From: ${plan.origin}'),
-          ));
+          markers.add(
+            Marker(
+              markerId: const MarkerId('origin'),
+              position: pos,
+              icon: BitmapDescriptor.defaultMarkerWithHue(
+                BitmapDescriptor.hueAzure,
+              ),
+              infoWindow: InfoWindow(title: 'From: ${plan.origin}'),
+            ),
+          );
           allPoints.insert(0, pos);
         }
       }
@@ -128,16 +138,19 @@ class _RouteResultsScreenState extends State<RouteResultsScreen> {
       if (i < plan.legs.length - 1) {
         final pos = pts.isNotEmpty ? pts.last : _ll(leg.endStop);
         if (pos != null) {
-          markers.add(Marker(
-            markerId: MarkerId('transfer_$i'),
-            position: pos,
-            icon: BitmapDescriptor.defaultMarkerWithHue(
-              _hueForMode(plan.legs[i + 1].mode)),
-            infoWindow: InfoWindow(
-              title: leg.endStop,
-              snippet: '→ Board ${plan.legs[i + 1].modeLabel}',
+          markers.add(
+            Marker(
+              markerId: MarkerId('transfer_$i'),
+              position: pos,
+              icon: BitmapDescriptor.defaultMarkerWithHue(
+                _hueForMode(plan.legs[i + 1].mode),
+              ),
+              infoWindow: InfoWindow(
+                title: leg.endStop,
+                snippet: '→ Board ${plan.legs[i + 1].modeLabel}',
+              ),
             ),
-          ));
+          );
         }
       }
 
@@ -145,12 +158,16 @@ class _RouteResultsScreenState extends State<RouteResultsScreen> {
       if (i == plan.legs.length - 1) {
         final pos = pts.isNotEmpty ? pts.last : _ll(leg.endStop);
         if (pos != null) {
-          markers.add(Marker(
-            markerId: const MarkerId('destination'),
-            position: pos,
-            icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-            infoWindow: InfoWindow(title: 'To: ${plan.destination}'),
-          ));
+          markers.add(
+            Marker(
+              markerId: const MarkerId('destination'),
+              position: pos,
+              icon: BitmapDescriptor.defaultMarkerWithHue(
+                BitmapDescriptor.hueRed,
+              ),
+              infoWindow: InfoWindow(title: 'To: ${plan.destination}'),
+            ),
+          );
           allPoints.add(pos);
         }
       }
@@ -164,8 +181,8 @@ class _RouteResultsScreenState extends State<RouteResultsScreen> {
       double minLng = allPoints.first.longitude;
       double maxLng = allPoints.first.longitude;
       for (final p in allPoints) {
-        if (p.latitude  < minLat) minLat = p.latitude;
-        if (p.latitude  > maxLat) maxLat = p.latitude;
+        if (p.latitude < minLat) minLat = p.latitude;
+        if (p.latitude > maxLat) maxLat = p.latitude;
         if (p.longitude < minLng) minLng = p.longitude;
         if (p.longitude > maxLng) maxLng = p.longitude;
       }
@@ -179,10 +196,10 @@ class _RouteResultsScreenState extends State<RouteResultsScreen> {
 
   static double _hueForMode(String mode) => switch (mode) {
     'metro' => BitmapDescriptor.hueCyan,
-    'rail'  => BitmapDescriptor.hueViolet,
-    'bus'   => BitmapDescriptor.hueYellow,
-    'auto'  => BitmapDescriptor.hueOrange,
-    _       => BitmapDescriptor.hueGreen,
+    'rail' => BitmapDescriptor.hueViolet,
+    'bus' => BitmapDescriptor.hueYellow,
+    'auto' => BitmapDescriptor.hueOrange,
+    _ => BitmapDescriptor.hueGreen,
   };
 
   void _onCardTapped(int index) {
@@ -190,13 +207,14 @@ class _RouteResultsScreenState extends State<RouteResultsScreen> {
     final overlays = _buildMapOverlays(widget.plans[index]);
     if (overlays.bounds != null) {
       _mapCtrl?.animateCamera(
-          CameraUpdate.newLatLngBounds(overlays.bounds!, 60));
+        CameraUpdate.newLatLngBounds(overlays.bounds!, 60),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final plan     = widget.plans[_selectedIndex];
+    final plan = widget.plans[_selectedIndex];
     final overlays = _buildMapOverlays(plan);
 
     return Scaffold(
@@ -216,10 +234,16 @@ class _RouteResultsScreenState extends State<RouteResultsScreen> {
               children: [
                 Text(
                   '${widget.plans.first.origin} → ${widget.plans.first.destination}',
-                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Colors.white),
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
                 ),
-                Text('${widget.plans.length} routes found',
-                    style: TextStyle(fontSize: 11, color: AppColors.tealMid)),
+                Text(
+                  '${widget.plans.length} routes found',
+                  style: TextStyle(fontSize: 11, color: AppColors.tealMid),
+                ),
               ],
             ),
           ),
@@ -241,11 +265,12 @@ class _RouteResultsScreenState extends State<RouteResultsScreen> {
                       if (b != null) {
                         Future.delayed(const Duration(milliseconds: 300), () {
                           _mapCtrl?.animateCamera(
-                              CameraUpdate.newLatLngBounds(b, 60));
+                            CameraUpdate.newLatLngBounds(b, 60),
+                          );
                         });
                       }
                     },
-                    markers:   overlays.markers,
+                    markers: overlays.markers,
                     polylines: overlays.polylines,
                     zoomControlsEnabled: false,
                     mapToolbarEnabled: false,
@@ -255,28 +280,41 @@ class _RouteResultsScreenState extends State<RouteResultsScreen> {
 
                   // ── Legend overlay ──────────────────────────────────
                   Positioned(
-                    bottom: 8, left: 8,
+                    bottom: 8,
+                    left: 8,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 6,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.92),
                         borderRadius: BorderRadius.circular(10),
-                        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 6)],
+                        boxShadow: [
+                          BoxShadow(color: Colors.black12, blurRadius: 6),
+                        ],
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           for (final leg in plan.legs) ...[
                             Container(
-                              width: 12, height: 4,
+                              width: 12,
+                              height: 4,
                               margin: const EdgeInsets.only(right: 4),
                               decoration: BoxDecoration(
                                 color: _modePolyColor(leg.mode),
                                 borderRadius: BorderRadius.circular(2),
                               ),
                             ),
-                            Text(leg.modeLabel,
-                                style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.navy)),
+                            Text(
+                              leg.modeLabel,
+                              style: const TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.navy,
+                              ),
+                            ),
                             const SizedBox(width: 10),
                           ],
                         ],
@@ -306,7 +344,9 @@ class _RouteResultsScreenState extends State<RouteResultsScreen> {
                         decoration: BoxDecoration(
                           color: selected ? color : color.withOpacity(0.08),
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: color.withOpacity(selected ? 0 : 0.3)),
+                          border: Border.all(
+                            color: color.withOpacity(selected ? 0 : 0.3),
+                          ),
                         ),
                         child: Text(
                           i < _labels.length ? _labels[i] : 'Route ${i + 1}',
@@ -335,10 +375,15 @@ class _RouteResultsScreenState extends State<RouteResultsScreen> {
                   child: RouteCard(
                     plan: widget.plans[i],
                     label: i < _labels.length ? _labels[i] : '',
-                    labelColor: i < _labelColors.length ? _labelColors[i] : AppColors.teal,
+                    labelColor: i < _labelColors.length
+                        ? _labelColors[i]
+                        : AppColors.teal,
                     isSelected: i == _selectedIndex,
                     onTap: () => _onCardTapped(i),
-                    onStartJourney: () => context.push('/journey', extra: widget.plans[i]),
+                    onStartJourney: () =>
+                        context.push('/journey', extra: widget.plans[i]),
+                    onEditRoute: () =>
+                        context.push('/editor', extra: widget.plans[i]),
                   ),
                 ),
                 childCount: widget.plans.length,

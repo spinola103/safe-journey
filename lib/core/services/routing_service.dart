@@ -107,6 +107,7 @@ class RoutingService {
         final type    = (vehicle['type']  as String).toLowerCase();
 
         routeLabel = (line['short_name'] ?? line['name'] ?? '') as String;
+        // ignore: unnecessary_cast
         if ((routeLabel as String).isEmpty) routeLabel = null;
 
         startStop = (transit['departure_stop'] as Map)['name'] as String? ?? startStop;
