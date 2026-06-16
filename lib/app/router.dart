@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../features/auth/screens/splash_screen.dart';
 import '../features/auth/screens/login_screen.dart';
@@ -12,14 +11,18 @@ import '../core/models/journey_plan.dart';
 final appRouter = GoRouter(
   initialLocation: '/',
   routes: [
-    GoRoute(path: '/',          builder: (_, __) => const SplashScreen()),
-    GoRoute(path: '/login',     builder: (_, __) => const LoginScreen()),
-    GoRoute(path: '/home',      builder: (_, __) => const HomeScreen()),
+    GoRoute(path: '/', builder: (_, __) => const SplashScreen()),
+    GoRoute(path: '/login', builder: (_, __) => const LoginScreen()),
+    GoRoute(path: '/home', builder: (_, __) => const HomeScreen()),
     GoRoute(
       path: '/results',
       builder: (_, state) {
-        final plans = state.extra as List<JourneyPlan>;
-        return RouteResultsScreen(plans: plans);
+        final data = state.extra as Map<String, dynamic>;
+
+        return RouteResultsScreen(
+          plans: data['plans'] as List<JourneyPlan>,
+          womensMode: data['womensMode'] as bool,
+        );
       },
     ),
     GoRoute(

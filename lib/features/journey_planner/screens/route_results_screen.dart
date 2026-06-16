@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../core/models/journey_plan.dart';
-import '../../../core/models/leg.dart';
 import '../../../core/theme/app_theme.dart';
 import '../widgets/route_card.dart';
 
@@ -51,14 +50,22 @@ LatLng? _ll(String stop) {
 // ─────────────────────────────────────────────────────────────────────────────
 class RouteResultsScreen extends StatefulWidget {
   final List<JourneyPlan> plans;
-  const RouteResultsScreen({super.key, required this.plans});
+  final bool womensMode;
+  const RouteResultsScreen({
+  super.key,
+  required this.plans,
+  this.womensMode = false,
+});
 
   @override
   State<RouteResultsScreen> createState() => _RouteResultsScreenState();
 }
 
 class _RouteResultsScreenState extends State<RouteResultsScreen> {
-  static const _labels = ['Fastest', 'Cheapest', 'Safest'];
+  List<String> get labels =>
+    widget.womensMode
+        ? ['Safest', 'Safe Cheapest', 'Safe Fastest']
+        : ['Fastest', 'Cheapest', 'Safest'];
   static const _labelColors = [
     AppColors.teal,
     AppColors.amber,
@@ -288,7 +295,7 @@ class _RouteResultsScreenState extends State<RouteResultsScreen> {
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.92),
+                        color: Colors.white.withValues(alpha: 0.92),
                         borderRadius: BorderRadius.circular(10),
                         boxShadow: [
                           BoxShadow(color: Colors.black12, blurRadius: 6),
@@ -342,14 +349,14 @@ class _RouteResultsScreenState extends State<RouteResultsScreen> {
                         margin: const EdgeInsets.only(right: 6),
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         decoration: BoxDecoration(
-                          color: selected ? color : color.withOpacity(0.08),
+                          color: selected ? color : color.withValues(alpha: 0.08),
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
-                            color: color.withOpacity(selected ? 0 : 0.3),
+                            color: color.withValues(alpha: selected ? 0 : 0.3),
                           ),
                         ),
                         child: Text(
-                          i < _labels.length ? _labels[i] : 'Route ${i + 1}',
+                          i < labels.length ? labels[i] : 'Route ${i + 1}',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 12,
@@ -374,10 +381,11 @@ class _RouteResultsScreenState extends State<RouteResultsScreen> {
                   padding: const EdgeInsets.only(bottom: 12),
                   child: RouteCard(
                     plan: widget.plans[i],
-                    label: i < _labels.length ? _labels[i] : '',
+                    label: i < labels.length ? labels[i] : '',
                     labelColor: i < _labelColors.length
                         ? _labelColors[i]
                         : AppColors.teal,
+                    womensMode: widget.womensMode,
                     isSelected: i == _selectedIndex,
                     onTap: () => _onCardTapped(i),
                     onStartJourney: () =>
@@ -396,4 +404,4 @@ class _RouteResultsScreenState extends State<RouteResultsScreen> {
   }
 }
 
-const _labels = ['Fastest', 'Cheapest', 'Safest'];
+

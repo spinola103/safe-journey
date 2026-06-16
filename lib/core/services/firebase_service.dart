@@ -1,7 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
 import '../models/journey_plan.dart';
-import '../models/leg.dart';
-
 class FirebaseService {
   static final _db = FirebaseDatabase.instance;
 

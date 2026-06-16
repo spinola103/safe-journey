@@ -55,14 +55,15 @@ class JourneyPlan {
 
   // ── Computed totals ──────────────────────────────────────────────────
   int get totalMinutes => legs.fold(0, (s, l) => s + l.durationMinutes);
-  double get totalFare  => legs.fold(0.0, (s, l) => s + l.fare);
-  double get avgSafetyScore =>
-      legs.isEmpty ? 0 : legs.fold(0.0, (s, l) => s + l.safetyScore) / legs.length;
+  double get totalFare => legs.fold(0.0, (s, l) => s + l.fare);
+  double get avgSafetyScore => legs.isEmpty
+      ? 0
+      : legs.fold(0.0, (s, l) => s + l.safetyScore) / legs.length;
   double get totalCo2Saved => legs.fold(0.0, (s, l) => s + l.co2SavedKg);
 
-  String get totalFareLabel  => '₹${totalFare.toStringAsFixed(0)}';
-  String get totalTimeLabel  => '$totalMinutes min';
-  String get safetyLabel     => avgSafetyScore.toStringAsFixed(0);
+  String get totalFareLabel => '₹${totalFare.toStringAsFixed(0)}';
+  String get totalTimeLabel => '$totalMinutes min';
+  String get safetyLabel => avgSafetyScore.toStringAsFixed(0);
 
   // ── Journey Editor core — O(1) leg swap ─────────────────────────────
   JourneyPlan swapLeg(int index, Leg newLeg) {
@@ -97,9 +98,11 @@ class JourneyPlan {
     legs: (j['legs'] as List<dynamic>? ?? [])
         .map((l) => Leg.fromJson(l as Map<String, dynamic>))
         .toList(),
-    checkpoints: (j['checkpoints'] as List<dynamic>? ?? [])
-        .map((c) => Checkpoint.fromJson(c as Map<String, dynamic>))
-        .toList(),
+    checkpoints: j['checkpoints'] == null
+        ? []
+        : (j['checkpoints'] as Map).values
+              .map((c) => Checkpoint.fromJson(Map<String, dynamic>.from(c)))
+              .toList(),
     startedAt: j['started_at'] != null
         ? DateTime.tryParse(j['started_at'])
         : null,

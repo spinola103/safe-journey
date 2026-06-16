@@ -11,6 +11,7 @@ class RouteCard extends StatelessWidget {
   final VoidCallback onTap;
   final VoidCallback onStartJourney;
   final VoidCallback onEditRoute; // ← ADD THIS LINE
+  final bool womensMode;
 
   const RouteCard({
     super.key,
@@ -21,6 +22,7 @@ class RouteCard extends StatelessWidget {
     required this.onStartJourney,
     required this.onEditRoute, // ← ADD THIS LINE
     this.isSelected = false,
+    this.womensMode = false,
   });
 
   @override
@@ -39,8 +41,8 @@ class RouteCard extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: isSelected
-                  ? labelColor.withOpacity(0.12)
-                  : Colors.black.withOpacity(0.04),
+                  ? labelColor.withValues(alpha: 0.12)
+                  : Colors.black.withValues(alpha: 0.04),
               blurRadius: isSelected ? 16 : 8,
               offset: const Offset(0, 3),
             ),
@@ -53,12 +55,12 @@ class RouteCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
-                color: labelColor.withOpacity(0.08),
+                color: labelColor.withValues(alpha: 0.08),
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(15),
                 ),
                 border: Border(
-                  bottom: BorderSide(color: labelColor.withOpacity(0.2)),
+                  bottom: BorderSide(color: labelColor.withValues(alpha: 0.2)),
                 ),
               ),
               child: Row(
@@ -81,7 +83,31 @@ class RouteCard extends StatelessWidget {
                       ),
                     ),
                   ),
+
+                  if (womensMode) ...[
+                    const SizedBox(width: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.pink,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Text(
+                        'Women Safe',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+
                   const Spacer(),
+
                   _SafetyBadge(score: plan.avgSafetyScore),
                 ],
               ),
@@ -210,7 +236,7 @@ class _LegJourneyView extends StatelessWidget {
               Container(
                 width: 1,
                 height: 38,
-                color: modeColor.withOpacity(0.35),
+                color: modeColor.withValues(alpha: 0.35),
               ),
               const SizedBox(width: 12),
               Container(
@@ -219,9 +245,9 @@ class _LegJourneyView extends StatelessWidget {
                   vertical: 5,
                 ),
                 decoration: BoxDecoration(
-                  color: modeColor.withOpacity(0.10),
+                  color: modeColor.withValues(alpha: 0.10),
                   borderRadius: BorderRadius.circular(6),
-                  border: Border.all(color: modeColor.withOpacity(0.25)),
+                  border: Border.all(color: modeColor.withValues(alpha: 0.25)),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -243,7 +269,7 @@ class _LegJourneyView extends StatelessWidget {
                       '${leg.durationMinutes} min',
                       style: TextStyle(
                         fontSize: 11,
-                        color: modeColor.withOpacity(0.7),
+                        color: modeColor.withValues(alpha: 0.7),
                       ),
                     ),
                   ],
@@ -307,9 +333,9 @@ class _SafetyBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

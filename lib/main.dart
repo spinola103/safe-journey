@@ -3,13 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'app/router.dart';
 import 'core/theme/app_theme.dart';
+import 'firebase_options.dart'; 
+ // add this import
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Firebase init — replace with your google-services.json config
-  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
+  await Firebase.initializeApp(           // uncomment this
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  print("Firebase apps = ${Firebase.apps.length}");
+  print("Firebase app = ${Firebase.app().name}");
   runApp(const ProviderScope(child: SafeJourneyApp()));
 }
 

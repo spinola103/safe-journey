@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../core/data/app_session.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -10,13 +11,18 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _nameCtrl = TextEditingController();
   final _phoneCtrl = TextEditingController();
   bool _loading = false;
 
   Future<void> _continueAsDemo() async {
     setState(() => _loading = true);
 
-    await Future.delayed(const Duration(milliseconds: 800));
+    AppSession.name = _nameCtrl.text.trim().isNotEmpty
+        ? _nameCtrl.text.trim()
+        : 'Traveller';
+
+    await Future.delayed(const Duration(milliseconds: 600));
 
     if (mounted) {
       context.go('/home');
@@ -25,6 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
+    _nameCtrl.dispose();
     _phoneCtrl.dispose();
     super.dispose();
   }
@@ -41,11 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               const SizedBox(height: 40),
 
-              const Icon(
-                Icons.shield_rounded,
-                color: AppColors.teal,
-                size: 48,
-              ),
+              const Icon(Icons.shield_rounded, color: AppColors.teal, size: 48),
 
               const SizedBox(height: 20),
 
@@ -62,13 +65,42 @@ class _LoginScreenState extends State<LoginScreen> {
 
               Text(
                 'Smart travel safety companion',
-                style: TextStyle(
-                  color: AppColors.tealMid,
-                  fontSize: 14,
-                ),
+                style: TextStyle(color: AppColors.tealMid, fontSize: 14),
               ),
 
               const SizedBox(height: 48),
+              Text(
+                'Your Name',
+                style: TextStyle(
+                  color: AppColors.tealMid,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+
+              const SizedBox(height: 8),
+              TextField(
+                controller: _nameCtrl,
+                textCapitalization: TextCapitalization.words,
+                keyboardType: TextInputType.name,
+                style: const TextStyle(color: Colors.white, fontSize: 16),
+                decoration: InputDecoration(
+                  hintText: 'Your name (shown to guardian)',
+                  hintStyle: TextStyle(color: AppColors.gray),
+                  filled: true,
+                  fillColor: const Color(0xFF1D2D3E),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                  ),
+                  prefixIcon: const Icon(
+                    Icons.person_outline_rounded,
+                    color: AppColors.tealMid,
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 16),
 
               Text(
                 'Phone Number (Optional)',
@@ -84,19 +116,12 @@ class _LoginScreenState extends State<LoginScreen> {
               TextField(
                 controller: _phoneCtrl,
                 keyboardType: TextInputType.phone,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                ),
+                style: const TextStyle(color: Colors.white, fontSize: 16),
                 decoration: InputDecoration(
                   prefixText: '+91  ',
-                  prefixStyle: TextStyle(
-                    color: AppColors.tealMid,
-                  ),
+                  prefixStyle: TextStyle(color: AppColors.tealMid),
                   hintText: '9876543210',
-                  hintStyle: TextStyle(
-                    color: AppColors.gray,
-                  ),
+                  hintStyle: TextStyle(color: AppColors.gray),
                   filled: true,
                   fillColor: const Color(0xFF1D2D3E),
                   border: OutlineInputBorder(
@@ -131,10 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Center(
                 child: Text(
                   'Hackathon Demo Mode',
-                  style: TextStyle(
-                    color: AppColors.tealMid,
-                    fontSize: 12,
-                  ),
+                  style: TextStyle(color: AppColors.tealMid, fontSize: 12),
                 ),
               ),
 
@@ -143,10 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Center(
                 child: Text(
                   'No signup required',
-                  style: TextStyle(
-                    color: AppColors.gray,
-                    fontSize: 12,
-                  ),
+                  style: TextStyle(color: AppColors.gray, fontSize: 12),
                 ),
               ),
             ],
